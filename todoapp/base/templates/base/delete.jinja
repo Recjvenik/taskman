@@ -7,10 +7,10 @@
         <div class="formWrapper">
             <br>
             <form class="form" method="POST">
-                <!-- Input:Text -->
+                
                 {% csrf_token %}
                 <p>Are you sure you want to delete "{{todo}}"</p>
-                <a class="btn btn--sub btn--lg  my-md" href="{% url 'todos' %}">
+                <a class="btn btn--sub btn--lg  my-md" href="{{ url ('todos') }}">
                     Go Back
                 </a>
 

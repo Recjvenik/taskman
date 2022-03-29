@@ -10,9 +10,15 @@ class User(AbstractUser):
 
 
 class Task(models.Model):
+
+    STATUS_CHOICE = [
+    ('C', 'PENDING'),
+    ('P', 'COMPLETED'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     title = models.CharField(max_length=200)
-    complete = models.BooleanField(default=False)
+    status = models.CharField(max_length = 10, choices=STATUS_CHOICE)
     due_date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
 

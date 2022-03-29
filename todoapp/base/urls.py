@@ -10,5 +10,6 @@ urlpatterns = [
     path('register/', views.registerUser, name='register'),
     path('login/', views.loginUser, name='login'),
     path('logout/', views.logoutUser, name='logout'),
+    path('change-status/<int:id>/<str:status>' , views.status_change, name='change-status' ), 
 
 ]

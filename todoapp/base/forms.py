@@ -50,14 +50,13 @@ class TodoForm(ModelForm):
 
     class Meta:
         model = Task
-        fields = ['title', 'due_date', 'complete']
+        fields = ['title', 'due_date', 'status']
         labels = {
             'title' : 'Task Name',
             'due_date' : 'Deadline'
         }
         widgets = {
             'due_date' : SelectDateWidget,
-            'complete' : CheckboxInput
         }
 
     

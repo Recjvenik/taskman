@@ -64,11 +64,12 @@ def todoList(request):
     user = request.user
     todos = Task.objects.filter(user=user)
     choice = SortingForm(request.POST or None)
+
     if request.method == 'POST':
         if choice.is_valid():
             temp = choice.cleaned_data.get("sort_by")
             todos = Task.objects.filter(user=user).order_by(temp)
-    
+
     context = {'todos':todos, 'choices':choice}
     return render(request, 'base/todos.jinja', context)
 
@@ -116,7 +117,12 @@ def todoDelete(request, pk):
     return render(request, 'base/delete.jinja', context)
     
 
-
+@login_required(login_url='login') 
+def status_change(request, id, status):
+    todo = Task.objects.get(pk=id)
+    todo.status = status
+    todo.save()
+    return redirect('todos')
 
 
 

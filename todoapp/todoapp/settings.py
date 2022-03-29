@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
-    'rest_framework'
+    'rest_framework',
+    'django_jinja',
 
 ]
 
@@ -59,9 +60,21 @@ ROOT_URLCONF = 'todoapp.urls'
 
 TEMPLATES = [
     {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.contrib.messages.context_processors.messages",
+            ],
+        }
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -83,8 +96,11 @@ WSGI_APPLICATION = 'todoapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'todo',
+        'USER':'todouser',
+        'PASSWORD':'Todo@4321!12',
+        'HOST':'localhost'
     }
 }
 

@@ -1,7 +1,7 @@
 
 
-{% include 'main.jinja' %}
-{% load static %}
+{% extends 'main.jinja' %}
+
 
 {% block content %}
 
@@ -13,13 +13,17 @@
       <div class="column column--2of3">
         <div class="settings">
             <h3 class="settings__title">Task List</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'todo-create' %}"><i class="im im-plus"></i> Add ToDo</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{{ url('todo-create') }}"><i class="im im-plus"></i> Add ToDo</a>
         </div>
 
         <form method="POST">
+          <div class="form__field">
           {% csrf_token %}
-          {{ choices.as_p}}
-          <input type="submit" value="submit">
+          {% for choice in choices %}
+          {{ choices }}
+          {% endfor %}
+          <input class="btn btn--sub btn--sm  my-md" type="submit" value="submit">
+        </div>
         </form>
 
         <table class="settings__table">
@@ -27,24 +31,25 @@
             <tr>
               <td class="settings__tableInfo">
                 <h4>{{todo.title}}</h4>
-                <h4>Created: {{ todo.created|date:'d M, Y' }}</h4>
-                <h4>Deadline: {{ todo.due_date|date:'d M, Y' }}</h4>
+                <h4>Created: {{ todo.created.strftime("%d %b, %Y") }}</h4>
+                <h4>Deadline: {{ todo.due_date.strftime("%d %b, %Y") }}</h4>
               </td>
-              <td class="settings__tableInfo">
-                {% if todo.complete %}
-                <input type="checkbox" class="input input--checkbox" checked>
-                {% else %}
-                <input type="checkbox" class="input input--checkbox">
-                {% endif %}
-                
-                <!-- <h4>Status: {{todo.complete}}</h4> -->
+
+              <td>
+                {% if todo.status == 'P' %}
+                  <a href="{{ url('change-status', todo.id, 'C') }}"  class="tag tag--pill tag--main settings__btn">&#10004;</a>
+                {%else%}
+                  <a href="{{ url('change-status', todo.id, 'P') }}"  class="tag tag--pill tag--main settings__btn">&#10008;</a>
+                {%endif%}
               </td>
+
+              
               
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'todo-update' todo.id %}"><i class="im im-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{{ url('todo-update', todo.id) }}"><i class="im im-edit"></i> Edit</a>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'todo-delete' todo.id %}"><i class="im im-x-mark-circle-o"></i>Delete</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{{ url('todo-delete', todo.id) }}"><i class="im im-x-mark-circle-o"></i>Delete</a>
               </td>
             </tr>
             {% endfor %} 
